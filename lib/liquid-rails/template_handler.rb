@@ -24,7 +24,7 @@ module Liquid
         assigns.merge!(local_assigns.stringify_keys)
         # check for a custom templates variable defined and use that if available for layouts
         template = assigns['custom_templates'].to_h[virtual_path] || template_source
-        liquid = Liquid::Template.parse(template_source)
+        liquid = Liquid::Template.parse(template)
         render_method = (::Rails.env.development? || ::Rails.env.test?) ? :render! : :render
         liquid.send(render_method, assigns, filters: filters, registers: { view: @view, controller: @controller, helper: @helper })
       end
