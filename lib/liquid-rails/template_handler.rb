@@ -22,11 +22,13 @@ module Liquid
         end
         assigns['content_for_layout'] = @view.content_for(:layout) if @view.content_for?(:layout)
         assigns.merge!(local_assigns.stringify_keys)
-        template = assigns['custom_templates'][virtual_path] || template_source
+        # check for a custom templates variable defined and use that if available for layouts
+        template = assigns['custom_templates'].to_h[virtual_path] || template_source
         liquid = Liquid::Template.parse(template_source)
         render_method = (::Rails.env.development? || ::Rails.env.test?) ? :render! : :render
         liquid.send(render_method, assigns, filters: filters, registers: { view: @view, controller: @controller, helper: @helper })
       end
+
 
       def filters
         if @controller.respond_to?(:liquid_filters, true)
