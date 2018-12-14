@@ -25,7 +25,7 @@ module Liquid
 
         liquid = Liquid::Template.parse(template)
         render_method = (::Rails.env.development? || ::Rails.env.test?) ? :render! : :render
-        liquid.send(render_method, assigns, filters: filters, registers: { view: @view, controller: @controller, helper: @helper }).html_safe
+        liquid.send(render_method, assigns, filters: filters, registers: registers).html_safe
       end
 
       def filters
@@ -34,6 +34,15 @@ module Liquid
         else
           [@controller._helpers]
         end
+      end
+
+      def registers
+        {
+          view: @view,
+          controller: @controller,
+          helper: @helper,
+          file_system: Liquid::Rails::FileSystem.new(@view)
+        }
       end
 
       def compilable?

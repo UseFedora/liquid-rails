@@ -21,6 +21,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'rails',    ">= 3.2", "< 5"
-  spec.add_dependency 'liquid',   '~> 3.0.6'
+  spec.add_dependency 'liquid',   '~> 4'
   spec.add_dependency 'kaminari', '~> 0.17.0'
 end
